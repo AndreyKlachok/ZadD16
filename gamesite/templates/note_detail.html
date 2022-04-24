@@ -1,0 +1,35 @@
+{% extends 'static/default.html' %}
+
+{% block title %} Post {{ note.title }} {% endblock title %}
+
+{% block content %}
+<br>
+<h3>SuperDuperGame Post</h3>
+<br>
+{{ note.title }}
+<br>
+Автор: {{ note.user }}({{ note.user.first_name }} {{ note.user.last_name }}); Категория: {{ note.category }}; дата создания: {{ note.datetime }} -
+<br><hr>
+{{ note.content | safe }}
+<br>
+<br>
+
+{% if edit_delete %}
+<a href="{% url 'edit' note.id %}"><u>Редактировать</u></a>
+<a href="{% url 'delete' note.id %}"><u>Удалить</u></a><br><br>
+{% endif %}
+
+{% if message_response %}
+<h6>Ваш отклик успешно отправлен</h6><br>
+{% endif %}
+
+{% if pole_response %}
+<h6>Введите ваши контакты</h6><br>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.content }}
+    <input type="submit" value="Оставить отклик">
+</form><br><br>
+{% endif %}
+<hr>
+{% endblock content %}
